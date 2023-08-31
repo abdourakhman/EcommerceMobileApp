@@ -5,6 +5,8 @@ import Fontisto from 'react-native-vector-icons/Fontisto'
 import styles from './Home.style'
 import Welcome from '../components/Home/Welcome'
 import Caroussel from '../components/Home/Caroussel'
+import Heading from '../components/Home/Heading'
+import ProductRow from '../components/products/ProductRow'
 
 const Home = () => {
   return (
@@ -26,6 +28,8 @@ const Home = () => {
       <ScrollView>
         <Welcome />
         <Caroussel />
+        <Heading />
+        <ProductRow />
       </ScrollView>
     </SafeAreaView>
   )
