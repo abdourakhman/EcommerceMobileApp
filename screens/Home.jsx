@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import styles from './Home.style'
 import Welcome from '../components/Home/Welcome'
+import Caroussel from '../components/Home/Caroussel'
 
 const Home = () => {
   return (
@@ -24,6 +25,7 @@ const Home = () => {
       </View>
       <ScrollView>
         <Welcome />
+        <Caroussel />
       </ScrollView>
     </SafeAreaView>
   )
