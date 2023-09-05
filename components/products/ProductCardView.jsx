@@ -5,21 +5,21 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { COLORS } from '../../helper/constants'
 import { useNavigation } from '@react-navigation/native'
 
-const ProductCardView = () => {
+const ProductCardView = ({item}) => {
     const naviagtion = useNavigation();
   return (
-    <TouchableOpacity onPress={()=>naviagtion.navigate("ProductDetails") }>
+    <TouchableOpacity onPress={()=>naviagtion.navigate("ProductDetails", {item}) }>
         <View style={styles.container} >
             <View style={styles.imageContainer}>
                 <Image 
-                    source={{uri:"https://www.meublesatlas.fr/modules/ph_simpleblog/featured/95.jpg"}}
+                    source={{uri:item.imageUrl}}
                     style={styles.image}
                 />
             </View>
             <View style={styles.details}>
-                <Text style={styles.title} numberOfLines={1}>product of lux 202"</Text>
-                <Text style={styles.supplier}  numberOfLines={1}>product</Text>
-                <Text style={styles.price}>75000Fr</Text>
+                <Text style={styles.title} numberOfLines={1}> {item.title} </Text>
+                <Text style={styles.supplier}  numberOfLines={1}> {item.supplier} </Text>
+                <Text style={styles.price}> {item.price??70000}Fr</Text>
             </View>
             <TouchableOpacity style={styles.addBtn} > 
                 <Ionicons name='add-circle'  size={35} color={COLORS.primary}/>

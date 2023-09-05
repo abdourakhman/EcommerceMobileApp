@@ -6,8 +6,12 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { COLORS, SIZES } from '../helper/constants'
+import { useRoute } from '@react-navigation/native'
+
 
 const ProductDetails = ({navigation}) => {
+    const route = useRoute();
+    const {item} = route.params;
     const [count, setCount] = useState(1)
     const increment = ()=>{
         if(count<5)
@@ -28,14 +32,14 @@ const ProductDetails = ({navigation}) => {
             </TouchableOpacity>
         </View>
         <Image 
-            source={{uri:"https://www.meublesatlas.fr/modules/ph_simpleblog/featured/95.jpg"}}
+            source={{uri:item.imageUrl}}
             style={styles.image}
         />
         <View style={styles.details} >
             <View style={styles.titleRow} >
-                <Text style={styles.title} >product</Text>
+                <Text style={styles.title} >{item.title} </Text>
                 <View style={styles.priceWrapper}>
-                    <Text style={styles.price} >75000Fr</Text>
+                    <Text style={styles.price} >{item.price??70000} </Text>
                 </View>
             </View>
 
@@ -66,15 +70,14 @@ const ProductDetails = ({navigation}) => {
 
             <View style={styles.descriptionWrapper} >
                 <Text style={styles.description} >description</Text>
-                <Text style={styles.descText}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab ad, expedita aspernatur voluptatum nobis reprehenderit eos molestiae, earum, autem laboriosam dolorum. In maxime perspiciatis consectetur, omnis id commodi enim officia.</Text>
+                <Text style={styles.descText}>{item.description}</Text>
+
             </View>
-
-
             <View style={{marginBottom:SIZES.small}}>
                 <View style={styles.location} >
                     <View style={{flexDirection:'row'}}>
                         <Ionicons name='location-outline' size={20} />
-                        <Text> Dakar Hlm</Text>
+                        <Text>{item.location} </Text>
                     </View>
                     <View style={{flexDirection:'row'}}>
                         <MaterialCommunityIcons name='truck-delivery-outline' size={20} />
