@@ -5,6 +5,7 @@ import BottomTabNavigation from './navigation/BottomTabNavigation';
 import Cart from './screens/Cart';
 import ProductDetails from './screens/ProductDetails';
 import NewRivals from './screens/NewRivals';
+import Login from './screens/Login';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -29,6 +30,11 @@ const App = () => {
          <Stack.Screen 
           name='ProductList'
           component={NewRivals}
+          options={{headerShown:false}}
+        />
+         <Stack.Screen 
+          name='Login'
+          component={Login}
           options={{headerShown:false}}
         />
       </Stack.Navigator>
