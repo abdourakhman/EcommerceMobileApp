@@ -21,7 +21,9 @@ const useFetch = (endPoint) => {
     
         const response = await axios.get(endPoint, config);
         setData(response.data);
-        console.log(endPoint)
+      }else{
+        const response = await axios.get(endPoint);
+        setData(response.data);
       }
     } catch (error) {
       console.log(error.stack);

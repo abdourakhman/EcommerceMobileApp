@@ -19,7 +19,7 @@ const ProductList = () => {
             <FlatList 
                 data={data}
                 numColumns={2}
-                keyExtractor={data._id}
+                keyExtractor={(data,index)=>index.toString()}
                 renderItem={({item})=>(
                 <ProductCardView  item={item}/>
                 )}

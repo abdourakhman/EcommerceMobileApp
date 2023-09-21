@@ -6,7 +6,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { COLORS } from '../helper/constants'
 import axios from 'axios'
 import SearchTile from './Search/SearchTile'
-import getCurrentUserData from '../helper/user'
 const Search = () => {
 
   const [searchKey, setSearchKey] =  useState('');
@@ -14,16 +13,8 @@ const Search = () => {
 
   const handleSearch= async()=>{
       try {
-        const userData = JSON.parse(await getCurrentUserData());  
-        if (userData !== null) {  
-          const config = {
-            headers: {
-              'Authorization': `Bearer ${userData.token}`
-            }
-          };
-          const response = await axios.get(`http://10.0.2.2:8080/api/furniture/products/${searchKey}`,config)
+          const response = await axios.get(`http://10.0.2.2:8080/api/furniture/products/${searchKey}`)
           setSearchResult(response.data)
-        }
         } catch (error) {
         console.log("Failed to get  products...")
     }
@@ -60,7 +51,7 @@ const Search = () => {
         ):(
             <FlatList
                 data={searchResult}
-                keyExtractor={(item)=>item.id}
+                keyExtractor={(item,index)=>index.toString()}
                 renderItem={({item})=>(
                     <SearchTile item={item} />
                 )}

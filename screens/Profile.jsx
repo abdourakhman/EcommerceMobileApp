@@ -20,7 +20,7 @@ const Profile = ({navigation}) => {
     try {
       const id = await AsyncStorage.getItem('id');
       const userData = await AsyncStorage.getItem(`user${JSON.parse(id)}`);
-      if(userData !== null){
+       if(userData !== null){
         const parsedData = JSON.parse(userData);
         setUserData(parsedData);
         setUserLogin(true);
@@ -36,10 +36,20 @@ const Profile = ({navigation}) => {
       "Are you sure you want to logout ?",
       [
         {
-          text:"Cancel", onPress: ()=> console.log("cancel pressed")
+          text:"No", onPress: ()=> {}
         },
         {
-          text:"Confirm" , onPress:()=>console.log("confirm pressed")
+          text:"Yes" , onPress:async ()=>{
+            const id = await AsyncStorage.getItem("id");
+            const userID = `user${JSON.parse(id)}`;
+            try {
+              await AsyncStorage.multiRemove(["id",userID]);
+              navigation.replace('BottomTabNavigation')
+            } catch (error) {
+              Alert.alert("Error logging out")
+              console.log("Error logging out :", error);
+            }
+          }
         }
       ]
     )
@@ -89,7 +99,7 @@ const Profile = ({navigation}) => {
             style={styles.profile}
           />
           <Text style={styles.name}>
-            {userLogin === true ? "userData.name" : "Please login into your account"}
+            {userLogin === true ? `${userData.user.firstname} ${userData.user.lastname}` : "Please login into your account"}
           </Text>
 
           {userLogin === false ? (

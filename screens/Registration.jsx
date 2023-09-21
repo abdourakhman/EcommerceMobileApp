@@ -15,15 +15,15 @@ const Registration = ({navigation}) => {
     const [obscureText, setObscureText] = useState(false)
     const signUP= async (values)=>{
         setLoader(true);
+        const endPoint="http://10.0.2.2:8080/api/auth/register";
+        const data = values;
         try {
-          const endPoint="http://10.0.2.2:8080/api/auth/register";
-          const data = values;
           const response = await axios.post(endPoint,data);
           if(response.status === 200){
             setLoader(false)
             console.log(response.data);
             setResponseData(response.data)
-            navigation.navigate("Login")
+            navigation.replace("Login")
           }
           else{ 
             invalidForm()
@@ -46,14 +46,6 @@ const Registration = ({navigation}) => {
       Alert.alert(
         "Wrong credentials",
         "Please provide right data on the required fields?",
-        [
-          {
-            text:"Cancel", onPress: ()=> {}
-          },
-          {
-            text:"Confirm" , onPress:()=>{}
-          }
-        ]
       )
       }
   return (
