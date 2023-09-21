@@ -1,24 +1,35 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import getCurrentUserData from '../helper/user';
 
-const useFetch = () => {
+
+const useFetch = (endPoint) => {
   const [data, setData] = useState([]);  
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
   const fetchData = async()=>{
     setIsLoading(true)
-
     try {
-        const response = await axios.get('http://10.0.2.2:8080/api/furniture/products')
-        setData(response.data)
-        setIsLoading(false)
+      const userData = JSON.parse(await getCurrentUserData());  
+      if (userData !== null) {  
+        const config = {
+          headers: {
+            'Authorization': `Bearer ${userData.token}`
+          }
+        };
+    
+        const response = await axios.get(endPoint, config);
+        setData(response.data);
+        console.log(endPoint)
+      }
     } catch (error) {
-      console.log(error.stack)
-        setError(error)
-    }finally{
-        setIsLoading(false)
+      console.log(error.stack);
+      setError(error);
+    } finally {
+      setIsLoading(false);
     }
+  
   }
 
 useEffect(()=>{

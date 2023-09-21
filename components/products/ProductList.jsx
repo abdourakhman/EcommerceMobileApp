@@ -6,7 +6,7 @@ import styles from './ProductList.style';
 import ProductCardView from './ProductCardView';
 
 const ProductList = () => {
-  const {data,isLoading,error} = useFetch();
+  const {data,isLoading,error} = useFetch('http://10.0.2.2:8080/api/furniture/products');
     if(isLoading){
         return (
             <View style={styles.loadingContainer} >
@@ -19,7 +19,7 @@ const ProductList = () => {
             <FlatList 
                 data={data}
                 numColumns={2}
-                keyExtractor={data.id}
+                keyExtractor={data._id}
                 renderItem={({item})=>(
                 <ProductCardView  item={item}/>
                 )}

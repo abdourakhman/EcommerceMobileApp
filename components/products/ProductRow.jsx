@@ -6,7 +6,7 @@ import styles from './ProductRow.style'
 import useFetch from '../../hooks/useFetch'
 
 const ProductRow = () => {
-  const {data, isLoading,error} = useFetch()
+  const {data, isLoading,error} = useFetch('http://10.0.2.2:8080/api/furniture/products')
   return (
    <View style={styles.container}>
      {isLoading ? (<ActivityIndicator size={SIZES.xxlarge} color={COLORS.primary}/>)
@@ -14,7 +14,7 @@ const ProductRow = () => {
      :
      (<FlatList 
       data={data}
-      keyExtractor={(item)=>item.id}
+      keyExtractor={(item)=>item._id}
       renderItem={({item})=>(<ProductCardView item={item} />)}
       horizontal={true}
       contentContainerStyle={{columnGap:SIZES.medium}}

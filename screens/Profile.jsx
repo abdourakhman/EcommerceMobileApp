@@ -6,10 +6,30 @@ import { COLORS } from '../helper/constants'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Profile = ({navigation}) => {
-  const [userData, setUserData] = useState(null)
-  const [userLogin, setUserLogin] = useState(true)
+   const [userData, setUserData] = useState(null)
+   const [userLogin, setUserLogin] = useState(false)
+
+  useEffect(()=>{
+    checkExistingUser();
+  },[]);
+
+  const checkExistingUser = async ()=>{
+    try {
+      const id = await AsyncStorage.getItem('id');
+      const userData = await AsyncStorage.getItem(`user${JSON.parse(id)}`);
+      if(userData !== null){
+        const parsedData = JSON.parse(userData);
+        setUserData(parsedData);
+        setUserLogin(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const logout = ()=>{ 
     Alert.alert(
       "Logout",
@@ -23,7 +43,7 @@ const Profile = ({navigation}) => {
         }
       ]
     )
-  }
+  };
   const clearCache = ()=>{ 
     Alert.alert(
       "Clear Cache",
@@ -37,7 +57,7 @@ const Profile = ({navigation}) => {
         }
       ]
     )
-  }
+  };
   const deleteAccount = ()=>{ 
     Alert.alert(
       "Delete account",
@@ -51,7 +71,7 @@ const Profile = ({navigation}) => {
         }
       ]
     )
-  }
+  };
   return (
     <View style={styles.container}> 
        <View style={styles.container}> 
@@ -92,7 +112,7 @@ const Profile = ({navigation}) => {
           </View>
           ):(
            <View style={styles.menuWrapper}>
-            <TouchableOpacity onPress={()=>{}}>
+            <TouchableOpacity onPress={()=> navigation.navigate('Favorites') }>
               <View style={styles.menuItem(1)}>
                 <MaterialCommunityIcons 
                   name="heart-outline"
@@ -102,7 +122,7 @@ const Profile = ({navigation}) => {
                 <Text style={styles.menuText} > Favorites</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{}}>
+            <TouchableOpacity onPress={()=>navigation.navigate('Orders')}>
               <View style={styles.menuItem(1)}>
                 <MaterialCommunityIcons 
                   name="truck-delivery-outline"
@@ -112,12 +132,12 @@ const Profile = ({navigation}) => {
                 <Text style={styles.menuText} >Orders</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{}}>
+            <TouchableOpacity onPress={()=>navigation.navigate('Cart')}>
               <View style={styles.menuItem(1)}>
                 <SimpleLineIcons 
                   name="bag"
                   color={COLORS.primary}
-                  size={24}
+                  size={24} 
                 />
                 <Text style={styles.menuText} > Cart</Text>
               </View>
