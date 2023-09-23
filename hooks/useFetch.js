@@ -11,20 +11,8 @@ const useFetch = (endPoint) => {
   const fetchData = async()=>{
     setIsLoading(true)
     try {
-      const userData = JSON.parse(await getCurrentUserData());  
-      if (userData !== null) {  
-        const config = {
-          headers: {
-            'Authorization': `Bearer ${userData.token}`
-          }
-        };
-    
-        const response = await axios.get(endPoint, config);
-        setData(response.data);
-      }else{
         const response = await axios.get(endPoint);
         setData(response.data);
-      }
     } catch (error) {
       console.log(error.stack);
       setError(error);

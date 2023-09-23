@@ -38,10 +38,11 @@ const styles = StyleSheet.create({
         borderRadius:SIZES.xlarge 
     },
     menuText:{
+        marginTop:5,
         fontWeight:"600",
         color:COLORS.gray,
         marginHorizontal:20,
-        fontSize:14,
+        fontSize:16,
         lineHeight:26
     },
     menuWrapper:{

@@ -7,6 +7,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import axios from 'axios'
+import getCurrentUserData from '../helper/user'
 
 const Profile = ({navigation}) => {
    const [userData, setUserData] = useState(null)
@@ -60,10 +62,23 @@ const Profile = ({navigation}) => {
       "Are you sure you want to delete all saved Data on your device ?",
       [
         {
-          text:"Cancel", onPress: ()=> console.log("cancel pressed")
+          text:"No", onPress: ()=> {}
         },
         {
-          text:"Confirm" , onPress:()=>console.log("confirm pressed")
+          text:"Yes" , onPress: async()=>{
+            //on efface tout le local sauf les informations qui maintiennent l'utilisateur connecté
+            const id = await AsyncStorage.getItem('id');
+            const userData = await AsyncStorage.getItem(`user${JSON.parse(id)}`);
+           try {
+            await AsyncStorage.clear();
+            await AsyncStorage.setItem('id',id);
+            await AsyncStorage.setItem(`user${id}`,userData);
+            console.log("clear cache successfully");
+            Alert.alert("Cache successfully cleared !")
+           } catch (error) {
+            console.log(error);
+           }
+          }
         }
       ]
     )
@@ -74,10 +89,28 @@ const Profile = ({navigation}) => {
       "Are you sure you want to suppress your account ?",
       [
         {
-          text:"Cancel", onPress: ()=> console.log("cancel pressed")
+          text:"Cancel", onPress: ()=> {}
         },
         {
-          text:"Confirm" , onPress:()=>console.log("confirm pressed")
+          text:"Confirm" , onPress: async()=>{
+            const userData = JSON.parse(await getCurrentUserData());  
+            if (userData !== null) {  
+              const config = {
+                headers: {
+                  'Authorization': `Bearer ${userData.token}`
+                }
+              }; 
+              const id = userData.user.id.timestamp
+              try {
+                const endPoint=`http://10.0.2.2:8080/api/users/${id}`;
+                axios.delete(endPoint,config)
+                console.log("user succefully deleted !");
+                navigation.replace("Login")
+              } catch (error) {
+                console.log(error);
+              }
+              }
+          }
         }
       ]
     )
@@ -110,7 +143,7 @@ const Profile = ({navigation}) => {
             </TouchableOpacity>
           ):(
             <View style={styles.loginBtn}>
-                <Text style={styles.menuText}>abdou@gmail.com</Text> 
+                <Text style={styles.menuText}>{userData ? `${userData.user.email}`:""} </Text> 
             </View>
           )
           
