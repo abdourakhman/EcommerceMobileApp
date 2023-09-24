@@ -6,9 +6,9 @@ import { COLORS } from '../../helper/constants'
 import { useNavigation } from '@react-navigation/native'
 
 const ProductCardView = ({item}) => {
-    const naviagtion = useNavigation();
+    const navigation = useNavigation();
   return (
-    <TouchableOpacity onPress={()=>naviagtion.navigate("ProductDetails", {item}) }>
+    <TouchableOpacity onPress={()=>navigation.navigate("ProductDetails", {item}) }>
         <View style={styles.container} >
             <View style={styles.imageContainer}>
                 <Image 
@@ -22,7 +22,7 @@ const ProductCardView = ({item}) => {
                 <Text style={styles.price}> {item.price??70000}Fr</Text>
             </View>
             <TouchableOpacity style={styles.addBtn} > 
-                <Ionicons name='add-circle'  size={35} color={COLORS.primary}/>
+                <Ionicons name='add-circle' size={35} color={COLORS.primary}/>
             </TouchableOpacity>
         </View>
     </TouchableOpacity>

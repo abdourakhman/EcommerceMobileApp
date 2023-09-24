@@ -131,91 +131,88 @@ const Profile = ({navigation}) => {
             source={require('../assets/images/profile.jpg')}
             style={styles.profile}
           />
-          <Text style={styles.name}>
-            {userLogin === true ? `${userData.user.firstname} ${userData.user.lastname}` : "Please login into your account"}
-          </Text>
-
-          {userLogin === false ? (
+        {userLogin === false ? (
+          <View>
+            <Text style={styles.name}>
+              Please login into your account
+            </Text>
             <TouchableOpacity onPress={()=>{navigation.navigate('Login')}}>
               <View style={styles.loginBtn}>
                 <Text style={styles.menuText}>L O G I N </Text>
               </View>
             </TouchableOpacity>
+          </View>
           ):(
-            <View style={styles.loginBtn}>
-                <Text style={styles.menuText}>{userData ? `${userData.user.email}`:""} </Text> 
+            <View>
+              <Text style={styles.name}>
+                {`${userData.user.firstname} ${userData.user.lastname}`}
+              </Text>
+              <View style={styles.emailBtn}>
+                <Text style={styles.emailText}>{userData ? `${userData.user.email}`:""} </Text> 
+              </View>
+              <View style={styles.menuWrapper}>
+                <TouchableOpacity onPress={()=> navigation.navigate('Favourites') }>
+                  <View style={styles.menuItem(1)}>
+                    <MaterialCommunityIcons 
+                      name="heart-outline"
+                      color={COLORS.primary}
+                      size={24}
+                    />
+                    <Text style={styles.menuText} > Favourites</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate('Orders')}>
+                  <View style={styles.menuItem(1)}>
+                    <MaterialCommunityIcons 
+                      name="truck-delivery-outline"
+                      color={COLORS.primary}
+                      size={24}
+                    />
+                    <Text style={styles.menuText} >Orders</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate('Cart')}>
+                  <View style={styles.menuItem(1)}>
+                    <SimpleLineIcons 
+                      name="bag"
+                      color={COLORS.primary}
+                      size={24} 
+                    />
+                    <Text style={styles.menuText} > Cart</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>clearCache()}>
+                  <View style={styles.menuItem(1)}>
+                    <MaterialCommunityIcons 
+                      name="cached"
+                      color={COLORS.primary}
+                      size={24}
+                    />
+                    <Text style={styles.menuText} >Reset</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>deleteAccount()}>
+                  <View style={styles.menuItem(1)}>
+                    <AntDesign 
+                      name="deleteuser"
+                      color={COLORS.primary}
+                      size={24}
+                    />
+                    <Text style={styles.menuText} > Delete account</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity  onPress={()=>logout()}>
+                  <View style={styles.menuItem(1)}>
+                    <AntDesign 
+                      name="logout"
+                      color={COLORS.primary}
+                      size={24}
+                    />
+                    <Text style={styles.menuText} > Logout</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
             </View>
-          )
-          
-        }
-
-        {userLogin === false ? (
-          <View>
-
-          </View>
-          ):(
-           <View style={styles.menuWrapper}>
-            <TouchableOpacity onPress={()=> navigation.navigate('Favorites') }>
-              <View style={styles.menuItem(1)}>
-                <MaterialCommunityIcons 
-                  name="heart-outline"
-                  color={COLORS.primary}
-                  size={24}
-                />
-                <Text style={styles.menuText} > Favorites</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={()=>navigation.navigate('Orders')}>
-              <View style={styles.menuItem(1)}>
-                <MaterialCommunityIcons 
-                  name="truck-delivery-outline"
-                  color={COLORS.primary}
-                  size={24}
-                />
-                <Text style={styles.menuText} >Orders</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={()=>navigation.navigate('Cart')}>
-              <View style={styles.menuItem(1)}>
-                <SimpleLineIcons 
-                  name="bag"
-                  color={COLORS.primary}
-                  size={24} 
-                />
-                <Text style={styles.menuText} > Cart</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={()=>clearCache()}>
-              <View style={styles.menuItem(1)}>
-                <MaterialCommunityIcons 
-                  name="cached"
-                  color={COLORS.primary}
-                  size={24}
-                />
-                <Text style={styles.menuText} >Reset</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={()=>deleteAccount()}>
-              <View style={styles.menuItem(1)}>
-                <AntDesign 
-                  name="deleteuser"
-                  color={COLORS.primary}
-                  size={24}
-                />
-                <Text style={styles.menuText} > Delete account</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity  onPress={()=>logout()}>
-              <View style={styles.menuItem(1)}>
-                <AntDesign 
-                  name="logout"
-                  color={COLORS.primary}
-                  size={24}
-                />
-                <Text style={styles.menuText} > Logout</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
           )
           
         }

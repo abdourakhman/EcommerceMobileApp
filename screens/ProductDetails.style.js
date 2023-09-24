@@ -39,6 +39,7 @@ const styles =  StyleSheet.create({
         top:20
     },
     title:{
+        width:'70%',
          fontWeight:"bold",
          fontSize:SIZES.xlarge
     },

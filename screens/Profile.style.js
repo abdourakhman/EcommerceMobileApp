@@ -28,22 +28,38 @@ const styles = StyleSheet.create({
     name:{
         fontWeight:"bold",
         color:COLORS.primary,
-        marginVertical:5
+        marginVertical:5,
+        textAlign:"center"
     },
     loginBtn:{
         backgroundColor:COLORS.secondary,
         padding:2,
-        borderWidth:0.4,
+        borderWidth:0.5,
         borderColor:COLORS.primary,
-        borderRadius:SIZES.xlarge 
+        borderRadius:SIZES.xlarge,
     },
     menuText:{
+        textAlign:"center",
         marginTop:5,
         fontWeight:"600",
         color:COLORS.gray,
         marginHorizontal:20,
         fontSize:16,
-        lineHeight:26
+        lineHeight:28,
+    },
+    emailBtn:{
+        padding:2,
+        borderBottomWidth:2,
+        borderColor:COLORS.primary,
+    },
+    emailText:{
+        backgroundColor:COLORS.secondary,
+        textAlign:"center",
+        marginTop:5,
+        fontWeight:"600",
+        color:COLORS.gray,
+        fontSize:16,
+        lineHeight:28,
     },
     menuWrapper:{
         marginTop:SIZES.xlarge,

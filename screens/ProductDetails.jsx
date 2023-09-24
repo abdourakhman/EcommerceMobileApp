@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import styles from './ProductDetails.style'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
@@ -7,12 +7,57 @@ import Fontisto from 'react-native-vector-icons/Fontisto'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { COLORS, SIZES } from '../helper/constants'
 import { useRoute } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 const ProductDetails = ({navigation}) => {
     const route = useRoute();
     const {item} = route.params;
     const [count, setCount] = useState(1)
+    const [isFavourite, setIsFavourite] = useState(false)
+    useEffect(()=>{
+        checkIsFavourite();
+    },[])
+
+    const checkIsFavourite = async()=>{
+        let favourites = await AsyncStorage.getItem('favourites')
+        if (favourites == '[]'){
+            await AsyncStorage.removeItem('favourites')
+        }
+        if(favourites){
+            try {     
+                const parsedFavourites = JSON.parse(favourites)
+                parsedFavourites.forEach(element => {
+                    if(element === item.id.timestamp){
+                        setIsFavourite(true)
+                    }
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+   
+    const updateFavourites = async()=>{
+        const favourites = await AsyncStorage.getItem("favourites")
+        if (favourites =='[]'){
+            await AsyncStorage.removeItem('favourites')
+        }
+        try {
+            if(favourites){
+                const parsedFavourites = JSON.parse(favourites)
+                isFavourite? parsedFavourites.pop(item.id.timestamp) : parsedFavourites.push(item.id.timestamp)
+                await AsyncStorage.setItem('favourites',JSON.stringify(parsedFavourites))
+                setIsFavourite(!isFavourite)
+            }else{
+                await AsyncStorage.setItem("favourites",JSON.stringify([item.id.timestamp]))
+                setIsFavourite(true)   
+            }
+        } catch (error) {
+          console.log(error);  
+        }     
+    }
+
     const increment = ()=>{
         if(count<5)
             setCount(count+1)
@@ -27,8 +72,8 @@ const ProductDetails = ({navigation}) => {
             <TouchableOpacity onPress={()=>navigation.goBack()}>
                 <Ionicons name="chevron-back-circle" size={30}/>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{}}>
-                <Ionicons name="heart" size={30} color={COLORS.primary}  />
+            <TouchableOpacity onPress={()=>{updateFavourites()}}>
+                <Ionicons name="heart" size={30} color={isFavourite? COLORS.primary : COLORS.offwhite}  />
             </TouchableOpacity>
         </View>
         <Image 
@@ -39,7 +84,7 @@ const ProductDetails = ({navigation}) => {
             <View style={styles.titleRow} >
                 <Text style={styles.title} >{item.title} </Text>
                 <View style={styles.priceWrapper}>
-                    <Text style={styles.price} >{item.price??70000} </Text>
+                    <Text style={styles.price} >{item.price??70000} Fr</Text>
                 </View>
             </View>
 

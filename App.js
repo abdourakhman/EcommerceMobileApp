@@ -6,9 +6,9 @@ import Cart from './screens/Cart';
 import ProductDetails from './screens/ProductDetails';
 import NewRivals from './screens/NewRivals';
 import Login from './screens/Login';
-import Favorites from './screens/Favorites';
 import Order from './screens/Order';
 import Registration from './screens/Registration';
+import Favourites from './screens/Favourites';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -41,8 +41,8 @@ const App = () => {
           options={{headerShown:false}}
         />
          <Stack.Screen 
-          name='Favorites'
-          component={Favorites}
+          name='Favourites'
+          component={Favourites}
           options={{headerShown:false}}
         />
          <Stack.Screen 
