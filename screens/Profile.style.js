@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         color:COLORS.gray,
         marginHorizontal:20,
         fontSize:16,
-        lineHeight:28,
+        lineHeight:20
     },
     emailBtn:{
         padding:2,
@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
         borderColor:COLORS.gray,
         paddingLeft:15,
         paddingTop:10,
-        paddingBottom:10
+        paddingBottom:10,
+        marginTop:5
     }),
 
 })

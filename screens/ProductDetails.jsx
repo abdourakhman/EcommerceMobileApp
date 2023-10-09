@@ -38,24 +38,58 @@ const ProductDetails = ({navigation}) => {
         }
     }
    
-    const updateFavourites = async()=>{
-        const favourites = await AsyncStorage.getItem("favourites")
-        if (favourites =='[]'){
-            await AsyncStorage.removeItem('favourites')
+// Mise à jour des favoris
+    const updateFavourites = async () => {
+        const favourites = await AsyncStorage.getItem("favourites");
+        if (favourites === '[]') {
+            await AsyncStorage.removeItem('favourites');
         }
+        
         try {
-            if(favourites){
-                const parsedFavourites = JSON.parse(favourites)
-                isFavourite? parsedFavourites.pop(item.id.timestamp) : parsedFavourites.push(item.id.timestamp)
-                await AsyncStorage.setItem('favourites',JSON.stringify(parsedFavourites))
-                setIsFavourite(!isFavourite)
-            }else{
-                await AsyncStorage.setItem("favourites",JSON.stringify([item.id.timestamp]))
-                setIsFavourite(true)   
+            if (favourites) {
+                const parsedFavourites = JSON.parse(favourites);
+                const index = parsedFavourites.indexOf(item.id.timestamp);
+                
+                if (index !== -1) {
+                    parsedFavourites.splice(index, 1); // Supprimer de la liste des favoris
+                    setIsFavourite(false);
+                } else {
+                    parsedFavourites.push(item.id.timestamp); // Ajouter aux favoris
+                    setIsFavourite(true);
+                }
+                
+                await AsyncStorage.setItem('favourites', JSON.stringify(parsedFavourites));
+            } else {
+                await AsyncStorage.setItem("favourites", JSON.stringify([item.id.timestamp]));
+                setIsFavourite(true);
             }
         } catch (error) {
-          console.log(error);  
-        }     
+            console.log(error);
+        }
+    }
+
+// Ajouter un produit au panier
+    const addToCart = async () => {
+        const orders = await AsyncStorage.getItem("orders");
+        if (orders === '[]') {
+            await AsyncStorage.removeItem('orders');
+        }
+        
+        const order = { id: item.id.timestamp, quantity: count };
+        
+        try {
+            if (orders) {
+                const parsedOrders = JSON.parse(orders);
+                parsedOrders.push(order);
+                await AsyncStorage.setItem('orders', JSON.stringify(parsedOrders));
+            } else {
+                await AsyncStorage.setItem("orders", JSON.stringify([order]));
+            }
+        } catch (error) {
+            console.log(error);
+        }finally{
+            navigation.navigate('Cart')
+        }
     }
 
     const increment = ()=>{
@@ -103,12 +137,12 @@ const ProductDetails = ({navigation}) => {
 
 
                 <View style={styles.rating} >
-                    <TouchableOpacity onPress={()=>increment()}>
-                        <SimpleLineIcons name="plus" size={20} />
-                    </TouchableOpacity>
-                    <Text style={styles.ratingText}>{count}</Text>
                     <TouchableOpacity onPress={()=>decrement()}>
                         <SimpleLineIcons name="minus" size={20} />
+                    </TouchableOpacity>
+                    <Text style={styles.ratingText}>{count}</Text>
+                    <TouchableOpacity onPress={()=>increment()}>
+                        <SimpleLineIcons name="plus" size={20} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -135,7 +169,7 @@ const ProductDetails = ({navigation}) => {
                 <TouchableOpacity onPress={()=>{}} style={styles.cartBtn}>
                     <Text style={styles.cartTitle}>BUY NOW</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>{}} style={styles.addCart}>
+                <TouchableOpacity onPress={()=>{addToCart()}} style={styles.addCart}>
                     <Fontisto name='shopping-bag' size={24} color={COLORS.lightwhite} />
                 </TouchableOpacity>
             </View>

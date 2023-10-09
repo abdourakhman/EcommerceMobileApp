@@ -16,15 +16,15 @@ const FavouritesList = () => {
     },[])
     getFavourites = async()=>{
         try {
-            const data = JSON.parse(await AsyncStorage.getItem('favourites'));
-            const response = await axios.post(endPoint, data)
+            const Favourite = JSON.parse(await AsyncStorage.getItem('favourites'));
+            const response = await axios.post(endPoint, Favourite)
             setData(response.data)
             setIsLoading(false)
         } catch (error) {
             console.log(error);
         }finally{
             setIsLoading(false)
-            console.log(data);
+            data.length !==0 ? console.log("fetching data"): console.log("No data fetching");
         }
     }
     if(isLoading){

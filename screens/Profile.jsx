@@ -74,7 +74,7 @@ const Profile = ({navigation}) => {
             await AsyncStorage.setItem('id',id);
             await AsyncStorage.setItem(`user${id}`,userData);
             console.log("clear cache successfully");
-            Alert.alert("Cache successfully cleared !")
+            Alert.alert("RESET","Cache successfully cleared !")
            } catch (error) {
             console.log(error);
            }
@@ -145,7 +145,7 @@ const Profile = ({navigation}) => {
           ):(
             <View>
               <Text style={styles.name}>
-                {`${userData.user.firstname} ${userData.user.lastname}`}
+                {`${userData.user.firstname.toUpperCase()} ${userData.user.lastname.toUpperCase()}`}
               </Text>
               <View style={styles.emailBtn}>
                 <Text style={styles.emailText}>{userData ? `${userData.user.email}`:""} </Text> 
